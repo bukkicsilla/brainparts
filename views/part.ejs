@@ -6,15 +6,16 @@
   </head>
   <body>
     <h1><%= title %></h1>
-      
-      <p> Cerebrum </p>
-      <P> It means brain.</P>
+    
+    <p><%= part.name %> </p>
+      <P> It means <%= part.meaning%>.</P>
       <p> Functionality:</p>
-      <ul>
-          <li>Reasoning</li>
-          <li>Recognition</li>
-          <li>Visual processing</li>
-          <li>Speech</li>
-      </ul>
+    <ul>
+     <% for(var i=0; i<part.functionalities.length; i++) {%>
+       <li>
+         <span><%= part.functionalities[i] %></span>
+       </li>
+     <% } %>
+    </ul>
   </body>
 </html>

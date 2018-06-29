@@ -9,9 +9,9 @@
     <!--<p>Welcome to <%= title %></p>-->
       
       <ul>
-          <li><a href="/part" >Cerebrum</a></li>
-          <li>Cerebellum</li>
-          <li>Pons</li>
+          <% parts.forEach(function(part){ %>
+         <li> <a href="/part"><%= part.name %></a></li>
+          <% }); %>
       </ul>
   </body>
 </html>
