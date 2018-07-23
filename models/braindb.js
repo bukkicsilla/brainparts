@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 //var dbURI = 'mongodb://localhost:27017/Brain';
 var dbURI = 'mongodb://lunasaturni:vorce166@ds143451.mlab.com:43451/brainmlab'
+//var dbURI = 'mongodb://lunaluna:luna14@ds143511.mlab.com:43511/testluna'
 //var dbURI = 'mongodb://localhost/Brain';
 
 /*if (process.env.NODE_ENV === 'production'){
@@ -11,7 +12,7 @@ var dbURI = 'mongodb://lunasaturni:vorce166@ds143451.mlab.com:43451/brainmlab'
 //NODE_ENV=production MONGODB_URI=mongodb://heroku_l1zxvgh6:2tvfgoopgt9fhq8imhgfkjo7cj@ds123399.mlab.com:23399/heroku_l1zxvgh6 nodemon start
 mongoose.connect(dbURI);
 
-/*mongoose.connection.on('connected', function(){
+mongoose.connection.on('connected', function(){
     console.log('Moongose connected to ' + dbURI);
 });
 mongoose.connection.on('error', function(err){
@@ -45,7 +46,7 @@ process.on('SIGTERM', function() {
     gracefulShutdown('Heroku app termination', function() {
         process.exit(0);
     });
-});*/
+});
 
 require('./brainparts');
 

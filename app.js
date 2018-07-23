@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 require('./models/braindb');
 
 var index = require('./routes/index');
+var indexApi = require('./routes/indexApi');
 var users = require('./routes/users');
 
 var app = express();
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/api', indexApi);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
