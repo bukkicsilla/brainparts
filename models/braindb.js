@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 //var dbURI = 'mongodb://localhost:27017/Brain';
 var dbURI = 'mongodb://lunasaturni:vorce166@ds143451.mlab.com:43451/brainmlab'
-//var dbURI = 'mongodb://lunaluna:luna14@ds143511.mlab.com:43511/testluna'
+
 //var dbURI = 'mongodb://localhost/Brain';
 
 /*if (process.env.NODE_ENV === 'production'){

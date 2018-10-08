@@ -8,6 +8,6 @@ var brainController = require('../controllers/brain');
 });*/
 
 router.get('/', brainController.getParts);
-router.get('/part', brainController.getPart);
+router.get('/part/:brainpartid', brainController.getPart);
 
 module.exports = router;

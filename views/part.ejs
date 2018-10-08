@@ -10,12 +10,20 @@
     <p><%= part.name %> </p>
       <P> It means <%= part.meaning%>.</P>
       <p> Functionality:</p>
-    <ul>
+    <!--<ul>
      <% for(var i=0; i<part.functionalities.length; i++) {%>
        <li>
          <span id="color"><%= part.functionalities[i] %></span>
        </li>
      <% } %>
-    </ul>
+    </ul>-->
+      <ul> 
+  
+          <% part.functionalities.forEach(function(functionality){ %>
+          <li>
+          <span><%= functionality.functionality %></span>
+          </li>
+          <% }); %>
+</ul>
   </body>
 </html>

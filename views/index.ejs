@@ -10,7 +10,8 @@
       
       <ul>
           <% parts.forEach(function(part){ %>
-         <li> <a href="/part"><%= part.name %></a></li>
+         
+          <li> <a href='/part/<%= part._id %>'><%= part.name %></a></li>
           <% }); %>
       </ul>
   </body>
