@@ -30,7 +30,7 @@ var apiOps = {
 };
 console.log('server ', apiOps.server);
 if (process.env.NODE_ENV === 'production') {
-    apiOps.server = "https://secret-earth-75939.herokuapp.com/";
+    apiOps.server = "https://secret-earth-75939.herokuapp.com";
 }
 
 module.exports.getParts = function(req, res){
