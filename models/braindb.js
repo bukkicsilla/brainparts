@@ -5,10 +5,10 @@ var dbURI = 'mongodb://lunasaturni:vorce166@ds143451.mlab.com:43451/brainmlab'
 
 //var dbURI = 'mongodb://localhost/Brain';
 
-/*if (process.env.NODE_ENV === 'production'){
+if (process.env.NODE_ENV === 'production'){
       dbURI = process.env.MONGODB_URI;
     //dbURI = 'mongodb://heroku_l1zxvgh6:2tvfgoopgt9fhq8imhgfkjo7cj@ds123399.mlab.com:23399/heroku_l1zxvgh6';
-}*/
+}
 //NODE_ENV=production MONGODB_URI=mongodb://heroku_l1zxvgh6:2tvfgoopgt9fhq8imhgfkjo7cj@ds123399.mlab.com:23399/heroku_l1zxvgh6 nodemon start
 mongoose.connect(dbURI);
 
