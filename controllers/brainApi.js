@@ -32,3 +32,19 @@ module.exports.showPart = function(req, res){
     }
     
 }
+
+module.exports.createPart = function(req, res){
+    Brain.create({
+        name: req.body.name,
+        meaning: req.body.meaning,
+        functionalities: req.body.functionalities
+    }, function(err, part){
+        if(err){
+            res.status(400);
+            res.json(err);
+        } else {
+            res.status(201);
+            res.json(part);
+        }
+    });
+}
