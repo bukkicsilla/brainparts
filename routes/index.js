@@ -9,5 +9,6 @@ var brainController = require('../controllers/brain');
 
 router.get('/', brainController.getParts);
 router.get('/part/:brainpartid', brainController.getPart);
-
+router.get('/createpart', brainController.formCreatePart);
+router.post('/createpart', brainController.createPart);
 module.exports = router;

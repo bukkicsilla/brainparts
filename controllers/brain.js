@@ -110,3 +110,65 @@ module.exports.getPart = function(req,res){
         });//function
 }
 
+module.exports.formCreatePart = function(req, res){
+    
+    res.render('createpart', {
+    title: 'Create Brain Part',
+    error: req.query.err
+  });
+}
+
+module.exports.createPart = function(req, res){
+ var requestOps, path, postdata;
+    path = '/api/brainparts';
+    var funclist = req.body.formfunc.split(",");
+    var funcdict = [];
+    if(funclist[0]!== "") {
+        var l = funclist.length;
+        var i;
+        for (i = 0; i <l; i++){
+            funcdict.push({
+                "functionality": funclist[i]
+            });
+        }
+    }
+    postdata = {
+    name: req.body.formname,    
+    meaning: req.body.formmeaning,
+    functionalities: funcdict
+    };
+    if (postdata.meaning === ""){
+        postdata.meaning = "??";
+    }
+   
+    requestOps = {
+    url : apiOps.server + path,
+    method : "POST",
+    json : postdata
+  };
+  if (!postdata.name) {
+    res.redirect('/createpart/');
+  } else {
+    request(
+      requestOps,
+      function(err, response, body) {
+        if (response.statusCode === 201) {
+          res.redirect('/');
+        } else if (response.statusCode === 400 && body.name && body.name === "ValidationError" ) {
+          res.redirect('/createpart/');
+        } else {
+        res.status(response.statusCode);
+        res.render('error', {
+               message: "The name must be unique!",
+                error: {
+                    status: response.statusCode,
+                    stack: 'go back to the form'
+                }
+  });
+        }
+      }
+    );
+  }     
+}
+
+
