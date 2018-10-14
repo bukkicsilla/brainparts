@@ -116,6 +116,7 @@ module.exports.formCreatePart = function(req, res){
     title: 'Create Brain Part',
     error: req.query.err
   });
+    console.log(req.query.err);
 }
 
 module.exports.createPart = function(req, res){
