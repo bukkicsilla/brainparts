@@ -11,4 +11,6 @@ router.get('/', brainController.getParts);
 router.get('/part/:brainpartid', brainController.getPart);
 router.get('/createpart', brainController.formCreatePart);
 router.post('/createpart', brainController.createPart);
+router.get('/deletepart/:brainpartid', brainController.deletePart);
+
 module.exports = router;

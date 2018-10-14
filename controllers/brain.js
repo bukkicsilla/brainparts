@@ -76,14 +76,15 @@ module.exports.getPart = function(req,res){
             console.log("body "+ body);
             if (response.statusCode === 200){
                 console.log('success');
+                console.log('part ID ' + body._id);
                //renderMovie(req, res, body);   
                 res.render('part', {
             title: 'Part info',
-            part: body,
+            brainpart: body,        
             part: {
-            name: body.name,
-            meaning: body.meaning,
-            functionalities: body.functionalities
+                name: body.name,
+                meaning: body.meaning,
+                functionalities: body.functionalities
             }
             
       });
@@ -171,5 +172,43 @@ module.exports.createPart = function(req, res){
     );
   }     
 }
+
+module.exports.deletePart = function(req, res){
+    var requestOps, path;
+    console.log(req.params);
+    path = "/api/brainparts/" + req.params.brainpartid;
+    console.log("path in delete " + path);
+    requestOps = {
+        url: apiOps.server + path,
+        method: "DELETE",
+        json: {}
+    };
+    request(requestOps, 
+           function(err, response, body){
+            if (response.statusCode === 204){
+                //console.log("ID "+ body_id);
+                res.redirect('/');
+            } else  {
+                if (response.statusCode === 404){
+                    title = "404, page not found";
+                    console.log("Try with a different id, page not found.");
+                } else {
+                    title = response.statusCode + ", sorry";
+                    console.log("something went wrong");
+                }
+                
+           res.status(response.statusCode);
+            res.render('error', {
+               title: title,
+               message: "Try with different id, page not found",
+                error: {
+                    status: response.statusCode,
+                    stack: 'go back to movie list'
+                }
+           });    
+         }//else
+        }
+    );
+} 
 
 

@@ -8,6 +8,7 @@
     <h1><%= title %></h1>
     
     <p><%= part.name %> </p>
+      
       <P> It means <%= part.meaning%>.</P>
       <p> Functionality:</p>
     <!--<ul>
@@ -25,5 +26,9 @@
           </li>
           <% }); %>
 </ul>
+      <br><br>
+      <a href='/deletepart/<%= brainpart._id %>' class="changepart"> Delete this part. </a>
+      <!--<a href='/updatemeaning/<%= brainpart._id %>' class="changepart"> Update meaning. </a>
+      <a href='/updatefunctionalities/<%= brainpart._id %>' class="changepart"> Update functionalities </a>-->
   </body>
 </html>
