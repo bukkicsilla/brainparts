@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1> Update meaning for <%= part.name %></h1> 
+      
+      <!--<p> name: <%= title %> </p>-->
+      <form class="form-horizontal" action="" method="post" role="form">
+          
+          <p> Field is requiered! </p>
+          <table>
+              
+        <tr>
+        <td>Meaning</td>
+        <td><input type="text" name="formmeaning"  value="<%= part.meaning %>"></td>
+        </tr>
+              
+              
+        <tr>
+        <td colspan="2"><input type="submit" value="Save" ></td>
+        </tr>
+    </table>
+          </form>
+      
+    
+  </body>
+</html>

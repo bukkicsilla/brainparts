@@ -5,6 +5,7 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+      <a href='/' class='changepart'> Brain Part List </a>
     <h1><%= title %></h1>
     
     <p><%= part.name %> </p>
@@ -28,7 +29,7 @@
 </ul>
       <br><br>
       <a href='/deletepart/<%= brainpart._id %>' class="changepart"> Delete this part. </a>
-      <!--<a href='/updatemeaning/<%= brainpart._id %>' class="changepart"> Update meaning. </a>
-      <a href='/updatefunctionalities/<%= brainpart._id %>' class="changepart"> Update functionalities </a>-->
+      <a href='/updatemeaning/<%= brainpart._id %>' class="changepart"> Update meaning. </a>
+      <!--<a href='/updatefunctionalities/<%= brainpart._id %>' class="changepart"> Update functionalities </a>-->
   </body>
 </html>

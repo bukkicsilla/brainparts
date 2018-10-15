@@ -68,3 +68,43 @@ module.exports.deletePart = function(req, res){
         res.json({"message":"no id"});
     } 
 } 
+
+module.exports.updateMeaning = function(req, res){
+    if(!req.params.brainpartid){
+        res.status(404);
+        res.json({"message": "id not found, it is required"});    
+        return;
+    }
+    Brain.findById(req.params.brainpartid)
+       .select('-name')
+       .exec(
+        function(err, part){
+            if(!part){
+                res.status(404);
+                res.json({"message":"brain part is not found"});
+                return;
+            } else if (err) {
+                res.status(400);
+                res.json(err);
+                return;
+            }
+            //questionanswer.question = req.body.question;
+            //questionanswer.answers = req.body.answers;
+            //concatenation of the old list and the new item in list
+            //movie.genres = [];
+            //movie.genres = movie.genres.concat(req.body.genres);
+            //part.functionalities = part.functionalities;
+            
+            if (req.body.meaning)  part.meaning = req.body.meaning;
+            
+            part.save(function(err, part){
+                if (err){
+                    res.status(404);
+                    res.json(err);
+                } else {
+                    res.status(200);
+                    res.json(part);
+                }   
+        });
+  });
+}

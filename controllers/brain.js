@@ -24,6 +24,12 @@
         });
 };*/
 
+//npm install --save history
+//var createHistory = require('history').createBrowserHistory
+//var h = createHistory();
+//var history = require('connect-history-api-fallback')
+//console.log("HIST" + createHistory);
+
 var request = require('request');
 var apiOps = {
   server : "http://localhost:3000"
@@ -175,9 +181,7 @@ module.exports.createPart = function(req, res){
 
 module.exports.deletePart = function(req, res){
     var requestOps, path;
-    console.log(req.params);
     path = "/api/brainparts/" + req.params.brainpartid;
-    console.log("path in delete " + path);
     requestOps = {
         url: apiOps.server + path,
         method: "DELETE",
@@ -186,17 +190,13 @@ module.exports.deletePart = function(req, res){
     request(requestOps, 
            function(err, response, body){
             if (response.statusCode === 204){
-                //console.log("ID "+ body_id);
                 res.redirect('/');
             } else  {
                 if (response.statusCode === 404){
                     title = "404, page not found";
-                    console.log("Try with a different id, page not found.");
                 } else {
                     title = response.statusCode + ", sorry";
-                    console.log("something went wrong");
                 }
-                
            res.status(response.statusCode);
             res.render('error', {
                title: title,
@@ -211,4 +211,87 @@ module.exports.deletePart = function(req, res){
     );
 } 
 
+module.exports.formUpdateMeaning = function(req, res){
+    
+    var requestOps, path;
+    path = "/api/brainparts/" + req.params.brainpartid;
+    
+    requestOps = {
+        url: apiOps.server + path,
+        method: "GET",
+        json: {}
+    };
+    request(requestOps, 
+           function(err, response, body){
+            console.log("body "+ body);
+            //if (response.statusCode === 200){
+                console.log('success');
+               //renderMovie(req, res, body);   
+                res.render('updatemeaning', {
+            title: 'Update Meaning',
+            error: req.query.err,
+            brainpart: body,
+            part:{
+                name: body.name,
+                meaning: body.meaning
+            }
+      });
+            //}
+       
+    });
+    
+};
 
+module.exports.updateMeaning = function(req, res){
+    
+    var requestOps, path, partid, postdata;
+    partid = req.params.brainpartid;
+    console.log("id :::" + partid);
+    console.log("******  ", req.params);
+  path = "/api/brainparts/" + req.params.brainpartid;
+  
+  postdata = {
+      meaning: req.body.formmeaning
+  };
+    
+    requestOps = {
+    url : apiOps.server + path,
+    method : "PUT",
+    json : postdata
+  };
+    console.log("meaning ", postdata.meaning);
+    if (!postdata.meaning) {
+      console.log("empry string");
+    res.redirect('/updatemeaning/'+partid);
+  }
+    else {
+    request(
+      requestOps,
+      function(err, response, body) {
+          console.log("here");
+        if (response.statusCode === 200) {
+            console.log("ok 200");
+            //history.go(-1);
+          res.redirect('/part/'+partid);
+        } else if (response.statusCode === 400 && body.formmeaning && body.formmeaning === "ValidationError" ) {
+          res.redirect('/updatemeaning/'+partid);
+        } else {
+          console.log(body);
+          //_showError(req, res, response.statusCode);
+        res.status(response.statusCode);
+        res.render('error', {
+           message: "field is empty",
+               partid: partid,
+                error: {
+                    status: response.statusCode,
+                    stack: 'go back to brainpart'
+                }
+  });
+        }
+      }
+    );
+  } //else 
+    
+    
+    
+}
