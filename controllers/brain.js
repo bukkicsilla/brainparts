@@ -25,11 +25,11 @@
 };*/
 
 //npm install --save history
-//var createHistory = require('history').createBrowserHistory
-//var h = createHistory();
-//var history = require('connect-history-api-fallback')
-//console.log("HIST" + createHistory);
-
+/*var createHistory = require('history').createBrowserHistory
+const history = createHistory({
+  basename: 'http://localhost:3000'
+})*/
+ 
 var request = require('request');
 var apiOps = {
   server : "http://localhost:3000"
@@ -83,7 +83,6 @@ module.exports.getPart = function(req,res){
             if (response.statusCode === 200){
                 console.log('success');
                 console.log('part ID ' + body._id);
-               //renderMovie(req, res, body);   
                 res.render('part', {
             title: 'Part info',
             brainpart: body,        
@@ -104,7 +103,6 @@ module.exports.getPart = function(req,res){
                 }
                 
            res.status(response.statusCode);
-            //console.log(err);
             res.render('error', {
                title: title,
                message: "Try with different id, page not found",
@@ -223,11 +221,7 @@ module.exports.formUpdateMeaning = function(req, res){
     };
     request(requestOps, 
            function(err, response, body){
-            console.log("body "+ body);
-            //if (response.statusCode === 200){
-                console.log('success');
-               //renderMovie(req, res, body);   
-                res.render('updatemeaning', {
+            res.render('updatemeaning', {
             title: 'Update Meaning',
             error: req.query.err,
             brainpart: body,
@@ -246,8 +240,7 @@ module.exports.updateMeaning = function(req, res){
     
     var requestOps, path, partid, postdata;
     partid = req.params.brainpartid;
-    console.log("id :::" + partid);
-    console.log("******  ", req.params);
+
   path = "/api/brainparts/" + req.params.brainpartid;
   
   postdata = {
@@ -259,25 +252,18 @@ module.exports.updateMeaning = function(req, res){
     method : "PUT",
     json : postdata
   };
-    console.log("meaning ", postdata.meaning);
     if (!postdata.meaning) {
-      console.log("empry string");
     res.redirect('/updatemeaning/'+partid);
   }
     else {
     request(
       requestOps,
       function(err, response, body) {
-          console.log("here");
         if (response.statusCode === 200) {
-            console.log("ok 200");
-            //history.go(-1);
           res.redirect('/part/'+partid);
         } else if (response.statusCode === 400 && body.formmeaning && body.formmeaning === "ValidationError" ) {
           res.redirect('/updatemeaning/'+partid);
         } else {
-          console.log(body);
-          //_showError(req, res, response.statusCode);
         res.status(response.statusCode);
         res.render('error', {
            message: "field is empty",
@@ -291,7 +277,125 @@ module.exports.updateMeaning = function(req, res){
       }
     );
   } //else 
+      
+}
+
+
+module.exports.formUpdateFunctionalities = function(req, res){
     
+    var requestOps, path;
+    path = "/api/brainparts/" + req.params.brainpartid;
     
+    requestOps = {
+        url: apiOps.server + path,
+        method: "GET",
+        json: {}
+    };
+    request(requestOps, 
+           function(err, response, body){
+            //if (response.statusCode === 200){
+                var funclist = "";
+                var l = body.functionalities.length;
+                var i;
+                if (l > 0){
+                for (i = 0; i < l-1; i++){
+                    funclist += body.functionalities[i].functionality + ', '
+                }
+                funclist += body.functionalities[l-1].functionality;
+                }
+                console.log('success func' , funclist);   
+                res.render('updatefunctionalities', {
+            title: 'Update functionalities',
+            error: req.query.err,
+            brainpart: body,
+            part:{
+                name: body.name,
+                meaning: body.meaning,
+                functionalities: funclist
+            }
+      });
+            //}
+       
+    });
+    
+};
+
+
+module.exports.updateFunctionalities = function(req, res){
+    
+    var requestOps, path, partid, postdata;
+    partid = req.params.brainpartid;
+    console.log("id :::" +  partid);
+    console.log("******  ", req.params);
+  path = "/api/brainparts/" + req.params.brainpartid + "/functionalities";
+  var funclist = req.body.formfunc.split(",");
+    console.log(" split String ", funclist);
+    
+    /*var funcdict = [];
+    var l = funclist.length;
+    var i;
+    for (i = 0; i <l; i++){
+        
+        funcdict.push({
+           "functionality": funclist[i]
+            
+        });
+    }*/
+    var funcdict = [];
+    if(funclist[0]!== "") {
+        var l = funclist.length;
+        var i;
+        for (i = 0; i <l; i++){
+            funcdict.push({
+                "functionality": funclist[i]
+            });
+        }
+    }
+    console.log("postman list ", funcdict);
+    
+  postdata = {
+      //genres: req.body.formgenre
+      //genres: [{"genre": req.body.formgenre}]  //only one big String list
+      functionalities: funcdict
+      //genres: [{"genre":"Douserries"} ,{"genre": "Funny"}]
+  };
+    
+    console.log("replace funcs ", postdata.functionalities);
+    requestOps = {
+    url : apiOps.server + path,
+    method: "PUT",
+    json : postdata
+  };
+    //console.log("genres ######### ", postdata.genres);
+    if (!postdata.functionalities) {
+      //console.log("empry string");
+    res.redirect('/updatefunctionalities/'+partid);
+  }
+    else {
+    request(
+      requestOps,
+      function(err, response, body) {
+          //console.log("here");
+        if (response.statusCode === 200) {
+            console.log("ok 200");
+          res.redirect('/part/'+partid);
+        } else if (response.statusCode === 400 && body.formfunctionalities && body.formfunctionalities === "ValidationError" ) {
+          res.redirect('/updatefunctionalities/' + partid);
+        } else {
+          //console.log(body);
+          //_showError(req, res, response.statusCode);
+        res.status(response.statusCode);
+        res.render('error', {
+           message: "field is empty",
+               movieid: partid,
+                error: {
+                    status: response.statusCode,
+                    stack: 'go back to brain part'
+                }
+  });
+        }
+      }
+    );
+  } //else 
     
 }

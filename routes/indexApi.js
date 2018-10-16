@@ -8,4 +8,6 @@ router.post('/brainparts', brainparts.createPart);
 router.delete('/brainparts/:brainpartid', brainparts.deletePart);
 router.put('/brainparts/:brainpartid', brainparts.updateMeaning);
 
+router.put('/brainparts/:brainpartid/functionalities', brainparts.updateFunctionalities);
+
 module.exports = router;

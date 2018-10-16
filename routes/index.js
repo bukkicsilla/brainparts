@@ -15,4 +15,7 @@ router.get('/deletepart/:brainpartid', brainController.deletePart);
 router.get('/updatemeaning/:brainpartid', brainController.formUpdateMeaning);
 router.post('/updatemeaning/:brainpartid', brainController.updateMeaning);
 
+router.get('/updatefunctionalities/:brainpartid', brainController.formUpdateFunctionalities);
+router.post('/updatefunctionalities/:brainpartid', brainController.updateFunctionalities);
+
 module.exports = router;
