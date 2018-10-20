@@ -88,8 +88,6 @@ module.exports.updateMeaning = function(req, res){
                 res.json(err);
                 return;
             }
-            //part.functionalities = part.functionalities;
-            
             if (req.body.meaning)  part.meaning = req.body.meaning;
             
             part.save(function(err, part){
