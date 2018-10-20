@@ -230,7 +230,6 @@ module.exports.formUpdateMeaning = function(req, res){
                 meaning: body.meaning
             }
       });
-            //}
        
     });
     
@@ -293,7 +292,6 @@ module.exports.formUpdateFunctionalities = function(req, res){
     };
     request(requestOps, 
            function(err, response, body){
-            //if (response.statusCode === 200){
                 var funclist = "";
                 var l = body.functionalities.length;
                 var i;
@@ -303,7 +301,6 @@ module.exports.formUpdateFunctionalities = function(req, res){
                 }
                 funclist += body.functionalities[l-1].functionality;
                 }
-                console.log('success func' , funclist);   
                 res.render('updatefunctionalities', {
             title: 'Update functionalities',
             error: req.query.err,
@@ -314,10 +311,7 @@ module.exports.formUpdateFunctionalities = function(req, res){
                 functionalities: funclist
             }
       });
-            //}
-       
     });
-    
 };
 
 
@@ -325,22 +319,9 @@ module.exports.updateFunctionalities = function(req, res){
     
     var requestOps, path, partid, postdata;
     partid = req.params.brainpartid;
-    console.log("id :::" +  partid);
-    console.log("******  ", req.params);
   path = "/api/brainparts/" + req.params.brainpartid + "/functionalities";
   var funclist = req.body.formfunc.split(",");
-    console.log(" split String ", funclist);
     
-    /*var funcdict = [];
-    var l = funclist.length;
-    var i;
-    for (i = 0; i <l; i++){
-        
-        funcdict.push({
-           "functionality": funclist[i]
-            
-        });
-    }*/
     var funcdict = [];
     if(funclist[0]!== "") {
         var l = funclist.length;
@@ -351,39 +332,26 @@ module.exports.updateFunctionalities = function(req, res){
             });
         }
     }
-    console.log("postman list ", funcdict);
-    
-  postdata = {
-      //genres: req.body.formgenre
-      //genres: [{"genre": req.body.formgenre}]  //only one big String list
+    postdata = {
       functionalities: funcdict
-      //genres: [{"genre":"Douserries"} ,{"genre": "Funny"}]
   };
-    
-    console.log("replace funcs ", postdata.functionalities);
     requestOps = {
     url : apiOps.server + path,
     method: "PUT",
     json : postdata
   };
-    //console.log("genres ######### ", postdata.genres);
     if (!postdata.functionalities) {
-      //console.log("empry string");
     res.redirect('/updatefunctionalities/'+partid);
   }
     else {
     request(
       requestOps,
       function(err, response, body) {
-          //console.log("here");
         if (response.statusCode === 200) {
-            console.log("ok 200");
           res.redirect('/part/'+partid);
         } else if (response.statusCode === 400 && body.formfunctionalities && body.formfunctionalities === "ValidationError" ) {
           res.redirect('/updatefunctionalities/' + partid);
         } else {
-          //console.log(body);
-          //_showError(req, res, response.statusCode);
         res.status(response.statusCode);
         res.render('error', {
            message: "field is empty",
@@ -392,7 +360,7 @@ module.exports.updateFunctionalities = function(req, res){
                     status: response.statusCode,
                     stack: 'go back to brain part'
                 }
-  });
+            });
         }
       }
     );
